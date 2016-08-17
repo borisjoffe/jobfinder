@@ -1,5 +1,6 @@
 # Application secrets
 config.js
+data/
 
 # Temporary files
 *~
