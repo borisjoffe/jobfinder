@@ -1,11 +1,12 @@
 'use strict'
 
+const l = require('log4js').getLogger('db')
 const fs = require('fs')
 
 var APP
 
 function write(data, dbname, tablename, opts) {
-	console.log('db: starting write')
+	l.info('db: starting write')
 
 	var str
 

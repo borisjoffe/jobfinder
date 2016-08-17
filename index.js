@@ -1,5 +1,6 @@
 'use strict'
 
+const l = require('log4js').getLogger('jobf')
 const _ = require('lodash')
 // const co = require('co')
 
@@ -34,8 +35,8 @@ function init() {
 		.read(upworkFeed)
 		.then(transform)
 		.then(persistAsync(upworkDb))
-		.then(() => log('done'))
-		.catch(err)
+		.then(() => l.info('done'))
+		.catch(l.error)
 
 	return APP
 }

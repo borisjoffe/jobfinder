@@ -1,6 +1,7 @@
 'use strict'
 
 // const co = require('co')
+const l = require('log4js').getLogger('fetch')
 const request = require('request')
 const FeedParser = require('feedparser')
 
@@ -19,7 +20,7 @@ var read = function (feedUrl) {
 		, feedparser = new FeedParser({addmeta: false})
 
 	req.on('error', function (error) {
-		console.error('request error:', error)
+		l.error('request error:', error)
 	})
 
 	req.on('response', function (res) {
@@ -31,7 +32,7 @@ var read = function (feedUrl) {
 		stream.pipe(feedparser)
 	})
 
-	console.log('fetch: starting fetch')
+	l.info('fetch: starting fetch')
 
 	return new Promise((resolve, reject) => {
 		feedparser.on('meta', function (meta) {
@@ -47,7 +48,7 @@ var read = function (feedUrl) {
 
 			while (item = stream.read()) {
 				jobs.items.push(item)
-				log('added item:', item.title)
+				l.info('added item:', item.title)
 			}
 
 		})
