@@ -89,6 +89,9 @@
 
     // Custom Globals, additional predefined global variables
     "globals"       : {
-        "rootRequire": true
+        "rootRequire": true,
+        "log": true,
+        "warn": true,
+        "err": true
     }
 }
