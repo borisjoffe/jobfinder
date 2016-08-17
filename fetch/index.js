@@ -31,12 +31,15 @@ var read = function (feedUrl) {
 		stream.pipe(feedparser)
 	})
 
+	console.log('fetch: starting fetch')
+
 	return new Promise((resolve, reject) => {
 		feedparser.on('meta', function (meta) {
 			jobs.meta = meta
 		})
 
 		feedparser.on('readable', function () {
+
 			// This is where the action is!
 			var stream = this
 				// , meta = this.meta // **NOTE** the "meta" is always available in the context of the feedparser instance
@@ -44,8 +47,12 @@ var read = function (feedUrl) {
 
 			while (item = stream.read()) {
 				jobs.items.push(item)
+				log('added item:', item.title)
 			}
 
+		})
+
+		feedparser.on('end', function () {
 			resolve(jobs)
 		})
 

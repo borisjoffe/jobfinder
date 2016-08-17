@@ -1,6 +1,6 @@
 {
   "name": "jobfinder",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "find contract jobs",
   "main": "index.js",
   "scripts": {
