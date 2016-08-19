@@ -21,6 +21,16 @@ module.exports = {
 		filename: 'bundle.js',
 	},
 	module: {
+		loaders: [{
+			test: /\.json$/,
+			loader: 'json',
+			exclude: /node_modules/,
+		}],
+
+		// Don't use babel transform in dev since modern browsers can handle ES6
+		// TODO: switch to babel in production to support older browsers
+
+		// https://github.com/babel/babel-loader
 		// loaders: [{
 		// 	test: /\.js$/,
 		// 	loader: 'babel',
