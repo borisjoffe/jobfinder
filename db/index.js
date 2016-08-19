@@ -2,16 +2,18 @@
 
 const l = require('log4js').getLogger('db')
 const fs = require('fs')
-const assert = require('assert')
+
+const t = require('tcomb')
 
 var APP, DB
 
 function write(data, tablename, opts) {
 	l.info('db: starting write')
-	assert(typeof tablename === 'string')
+	t.VString(tablename)
 
 	var dataStr
 	var filename = DB[tablename]
+	t.VString(tablename)
 
 	if (typeof data === 'object')
 		dataStr = JSON.stringify(data)

@@ -2,12 +2,18 @@
 
 const l = require('log4js').getLogger('jobf')
 const _ = require('lodash')
+const t = require('tcomb')
 // const co = require('co')
 
 /* Globals */
 global.rootRequire = function (path) {
 	return require('./' + path)
 }
+
+
+t.NotEmpty = t.irreducible('NotEmpty', (x) => x.length > 0)
+
+t.VString = t.intersection([t.String, t.NotEmpty], 'Non-empty string')
 
 function init() {
 	const APP = {}

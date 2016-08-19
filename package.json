@@ -33,7 +33,8 @@
     "react": "^15.3.0",
     "react-dom": "^15.3.0",
     "react-hyperscript": "^2.4.0",
-    "request": "^2.74.0"
+    "request": "^2.74.0",
+    "tcomb": "^3.2.12"
   },
   "devDependencies": {
     "plop": "^1.5.0",
