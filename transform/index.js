@@ -7,8 +7,9 @@ var APP
 
 function logIfDiff(obj, k1, k2) {
 	if (obj[k1] !== obj[k2]) {
-		l.warn('is diff')
-		l.warn(k1, 'not equal to', k2, obj[k1], obj[k2])
+		l.warn(k1, 'not equal to', k2)
+		l.warn('k1:', obj[k1])
+		l.warn('k2:', obj[k2])
 	}
 }
 
