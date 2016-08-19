@@ -20,21 +20,18 @@ function init() {
 	APP.transform = require('./transform')(APP)
 
 	const upworkFeed = APP.cfg.upwork.feed.main
-	const upworkDb = APP.cfg.upwork.db
 
 	var transform = _.flow(
 		APP.transform.cleanAll,
 		APP.transform.transformAll
 	)
 
-	var persistAsync = (db) => {
-		return (jobs) => APP.db.write(jobs, db)
-	}
+	var persistAsync = (jobs) => APP.db.write(jobs, 'jobs')
 
 	APP.fetch
 		.read(upworkFeed)
 		.then(transform)
-		.then(persistAsync(upworkDb))
+		.then(persistAsync)
 		.then(() => l.info('done'))
 		.catch(l.error)
 

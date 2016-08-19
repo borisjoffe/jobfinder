@@ -10,11 +10,9 @@ const ReactDOM = require('react-dom')
 const h = require('react-hyperscript')
 
 const APP = {
-	jobs: {
-		// TODO: get from server
-		upwork: require('../data/upwork.db.json'),
-		// upwork: [],
-	},
+	// TODO: get from server
+	jobs: require('../data/jobs.db.json'),
+	// jobs: [],
 }
 
 const unsafeHtmlProp = (htmlStr) => {
@@ -22,10 +20,10 @@ const unsafeHtmlProp = (htmlStr) => {
 }
 
 const Jobs = () => {
-	var upworkJobs = APP.jobs.upwork.items
+	var jobs = APP.jobs.items
 
 	return h('ul', [
-		upworkJobs.map((job) => h(UpworkJob, {job})),
+		jobs.map((job) => h(UpworkJob, {job})),
 	])
 }
 

@@ -2,19 +2,22 @@
 
 const l = require('log4js').getLogger('db')
 const fs = require('fs')
+const assert = require('assert')
 
-var APP
+var APP, DB
 
-function write(data, dbname, tablename, opts) {
+function write(data, tablename, opts) {
 	l.info('db: starting write')
+	assert(typeof tablename === 'string')
 
-	var str
+	var dataStr
+	var filename = DB[tablename]
 
 	if (typeof data === 'object')
-		str = JSON.stringify(data, null, '\t')
+		dataStr = JSON.stringify(data)
 
 	return new Promise(function (resolve, reject) {
-		fs.writeFile(dbname, str, function (err) {
+		fs.writeFile(filename, dataStr, function (err) {
 			if (err)
 				reject(err)
 			else
@@ -25,6 +28,7 @@ function write(data, dbname, tablename, opts) {
 
 module.exports = (app) => {
 	APP = app
+	DB = APP.cfg.db
 
 	return {
 		write,
