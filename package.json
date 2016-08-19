@@ -4,6 +4,10 @@
   "description": "find contract jobs",
   "main": "index.js",
   "scripts": {
+    "web": "npm run serve",
+    "dev": "webpack-dev-server",
+    "build": "webpack",
+    "serve": "nodemon --watch server --watch webpack.config.js --watch package.json server/index.js",
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -15,14 +19,25 @@
   "author": "Boris Joffe",
   "license": "AGPL-3.0",
   "dependencies": {
-    "feedparser": "^1.1.4",
-    "request": "^2.74.0",
+    "babel-runtime": "^6.11.6",
     "co": "^4.6.0",
     "es6-promisify": "^4.1.0",
+    "feedparser": "^1.1.4",
+    "koa": "^1.2.1",
+    "koa-mount": "^1.3.0",
+    "koa-proxy": "^0.6.0",
+    "koa-static": "^2.0.0",
     "lodash": "^4.15.0",
-    "log4js": "^0.6.38"
+    "log4js": "^0.6.38",
+    "react": "^15.3.0",
+    "react-dom": "^15.3.0",
+    "react-hyperscript": "^2.4.0",
+    "request": "^2.74.0"
   },
   "devDependencies": {
-    "plop": "^1.5.0"
+    "plop": "^1.5.0",
+    "webpack": "^1.13.2",
+    "webpack-dev-server": "^1.14.1",
+    "nodemon": "^1.10.2"
   }
 }
