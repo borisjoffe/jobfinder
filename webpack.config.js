@@ -25,13 +25,15 @@ module.exports = {
 			test: /\.json$/,
 			loader: 'json',
 			exclude: /node_modules/,
-		}],
-
+		}, {
+			test: /\.css$/,
+			loader: 'css',
+			exclude: /node_modules/,
+		},
+		// {
 		// Don't use babel transform in dev since modern browsers can handle ES6
 		// TODO: switch to babel in production to support older browsers
-
 		// https://github.com/babel/babel-loader
-		// loaders: [{
 		// 	test: /\.js$/,
 		// 	loader: 'babel',
 		// 	exclude: /node_modules/,
@@ -40,7 +42,8 @@ module.exports = {
 		// 		presets: ['es2015', 'react'],
 		// 		plugins: ['transform-runtime'],
 		// 	},
-		// }],
+		// },
+		]
 	},
 	plugins: [
 		// new webpack.optimize.CommonsChunkPlugin('common.js'),
