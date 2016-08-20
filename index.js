@@ -1,14 +1,12 @@
 'use strict'
 
+
 const l = require('log4js').getLogger('jobf')
 const _ = require('lodash')
 const t = require('tcomb')
 // const co = require('co')
 
-/* Globals */
-global.rootRequire = function (path) {
-	return require('./' + path)
-}
+require('util')
 
 
 t.NotEmpty = t.irreducible('NotEmpty', (x) => x.length > 0)
@@ -43,25 +41,6 @@ function init() {
 
 	return APP
 }
-
-function log(...args) {
-	console.log(...args)
-	return args.slice(-1)
-}
-
-function warn(...args) {
-	console.warn(...args)
-	return args.slice(-1)
-}
-
-function err(...args) {
-	console.error(...args)
-	return args.slice(-1)
-}
-
-global.log = log
-global.warn = warn
-global.err = err
 
 init()
 
