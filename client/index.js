@@ -23,15 +23,14 @@ const unsafeHtmlProp = (htmlStr) => {
 	return { dangerouslySetInnerHTML: {__html: htmlStr}}
 }
 
-const SearchBar = (props) => {
-	var searchTerm = props.searchTerm
+const SearchBar = ({ searchTerm, onFilterChange }) => {
 	t.String(searchTerm)
 
 	return h('input', {
 		type: 'text',
 		placeholder: 'Search jobs',
 		value: searchTerm ? searchTerm : '',
-		onChange: props.onFilterChange,
+		onChange: onFilterChange,
 	})
 }
 
@@ -71,9 +70,7 @@ const filterJob = (filter, job) => {
 	// TODO: add RegExp option for filter
 }
 
-const Job = (props) => {
-	var job = props.job
-
+const Job = ({ job }) => {
 	return h('li', [
 		h('div', {title: Object.keys(job)}, job.title),
 		h('div', job.date),
@@ -109,7 +106,7 @@ class JobsView extends React.Component {
 			h('h1', 'Jobs'),
 			h(SearchBar, {searchTerm, onFilterChange: this.onFilterChange}),
 			h('span', 'Showing ' + jobs.length + ' jobs'),
-			h(JobsList, {jobs: jobs}),
+			h(JobsList, { jobs }),
 		])
 	}
 }
