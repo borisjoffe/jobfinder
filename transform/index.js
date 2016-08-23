@@ -17,8 +17,9 @@ function clean(job) {
 	logIfDiff(job, 'description', 'summary')
 	logIfDiff(job, 'date', 'pubDate')
 
-	return _.pick(job, ['guid', 'title', 'description', 'date', 'pubDate',
-		'link'])
+	job.desc = job.description
+
+	return _.pick(job, ['guid', 'title', 'desc', 'date', 'pubDate', 'link'])
 }
 
 function cleanAll(jobs) {

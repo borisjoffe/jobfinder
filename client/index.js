@@ -6,10 +6,11 @@ if (module.hot) {
 
 require('./util')
 
-// const _ = require('lodash')
+const _ = require('lodash')
 const React = require('react')
 const ReactDOM = require('react-dom')
 const h = require('react-hyperscript')
+const t = require('tcomb')
 // const classnames = require('classnames')
 
 const APP = {
@@ -23,7 +24,8 @@ const unsafeHtmlProp = (htmlStr) => {
 }
 
 const SearchBar = (props) => {
-	var searchTerm = props.filter
+	var searchTerm = props.searchTerm
+	t.String(searchTerm)
 
 	return h('input', {
 		type: 'text',
@@ -33,11 +35,11 @@ const SearchBar = (props) => {
 	})
 }
 
-const Jobs = (props) => {
-	var jobs = APP.jobs.items
+const JobsList = (props) => {
+	var jobs = props.jobs
 
 	return h('ul', [
-		jobs.map((job, key) => h(UpworkJob, {job, key, filter: props.filter})),
+		jobs.map((job, key) => h(Job, {job, key})),
 	])
 }
 
@@ -49,12 +51,13 @@ const hasUppercase = (str) => {
 }
 
 // smartcase search
-const filterJob = (job, filter) => {
+const filterJob = (filter, job) => {
+	t.String(filter)
+
 	if (!filter)
 		return true
 
-	var desc = job.description
-	  , title = job.title
+	var { desc, title } = job
 
 	// case-insensitive search
 	if (!hasUppercase(filter)) {
@@ -65,53 +68,52 @@ const filterJob = (job, filter) => {
 	if (typeof filter === 'string')
 		return desc.includes(filter) || title.includes(filter)
 
-	else
-		throw new TypeError('(filterJob) filter must be string' +
-		' but was:' + filter)
+	// TODO: add RegExp option for filter
 }
 
-const UpworkJob = (props) => {
+const Job = (props) => {
 	var job = props.job
 
-	// TODO: make hidden or return null???
-	if (!filterJob(job, props.filter))
-		return null
-	// var hidden = !filterJob(job, props.filter)
-
-	return h('li', /* { className: classnames({hidden}) } ,*/ [
+	return h('li', [
 		h('div', {title: Object.keys(job)}, job.title),
 		h('div', job.date),
-		h('div', unsafeHtmlProp(job.description)),
+		h('div', unsafeHtmlProp(job.desc)),
 	])
 }
 
 function onFilterChange(e) {
 	//jshint validthis:true
 	this.setState({
-		filter: e.target.value
+		searchTerm: e.target.value
 	})
 }
 
-class JobsList extends React.Component {
+class JobsView extends React.Component {
 	constructor(props) {
 		super(props)
 
 		this.state = {
-			filter: ''
+			searchTerm: ''
 		}
 
 		this.onFilterChange = onFilterChange.bind(this)
 	}
 
 	render() {
+		var searchTerm = this.state.searchTerm
+
+		var jobs = APP.jobs.items
+			.filter(_.curry(filterJob)(searchTerm))
+
 		return h('div', [
 			h('h1', 'Jobs'),
-			h(SearchBar, {filter: this.state.filter, onFilterChange: this.onFilterChange}),
-			h(Jobs, {filter: this.state.filter}),
+			h(SearchBar, {searchTerm, onFilterChange: this.onFilterChange}),
+			h('span', 'Showing ' + jobs.length + ' jobs'),
+			h(JobsList, {jobs: jobs}),
 		])
 	}
 }
 
-ReactDOM.render(h(JobsList), document.getElementById('app'))
+ReactDOM.render(h(JobsView), document.getElementById('app'))
 
-module.exports = JobsList
+module.exports = JobsView
