@@ -30,8 +30,18 @@ function cleanAll(jobs) {
 	return jobs
 }
 
+function stripEnd(str, end) {
+	var stripped = str
+	if (str.endsWith(end))
+		stripped = str.replace(new RegExp(end + '$'), '')
+	return stripped
+}
 
-function transform(job) {
+function transform(origJob) {
+	const job = _.cloneDeep(origJob)
+
+	job.title = stripEnd(origJob.title, ' - Upwork')
+
 	return job
 }
 
