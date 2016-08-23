@@ -1,0 +1,26 @@
+session_name: jfserv
+windows:
+- layout: aa90,49x46,0,0[49x23,0,0,94,49x22,0,24,95]
+  options:
+    automatic-rename: 'off'
+  panes:
+  - focus: 'true'
+    shell_command: zsh
+  - zsh
+  start_directory: /home/boris/dev/jobfinder
+  window_name: run
+- layout: 6129,49x46,0,0,96
+  options:
+    automatic-rename: 'off'
+  panes:
+  - pane
+  start_directory: /home/boris/dev/jobfinder
+  window_name: node
+- focus: 'true'
+  layout: 612a,49x46,0,0,97
+  options: {}
+  panes:
+  - focus: 'true'
+    shell_command: zsh
+  start_directory: /home/boris/dev/jobfinder
+  window_name: zsh

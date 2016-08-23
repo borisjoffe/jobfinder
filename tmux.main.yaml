@@ -1,0 +1,26 @@
+session_name: jobf
+windows:
+- layout: e2f9,106x46,0,0,87
+  options:
+    automatic-rename: 'off'
+  panes:
+  - focus: 'true'
+    shell_command: vim -p tmux.main.yaml client
+  start_directory: /home/boris/dev/jobfinder
+  window_name: v fe
+- layout: 62f3,106x46,0,0,90
+  options:
+    automatic-rename: 'off'
+  panes:
+  - focus: 'true'
+    shell_command: vim -p index.js
+  start_directory: /home/boris/dev/jobfinder
+  window_name: v ex
+- focus: 'true'
+  layout: e2fa,106x46,0,0,88
+  options:
+    automatic-rename: 'off'
+  panes:
+  - pane
+  start_directory: /home/boris/dev/jobfinder
+  window_name: g
