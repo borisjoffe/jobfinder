@@ -3,6 +3,7 @@
 const _ = require('lodash')
 const h = require('react-hyperscript')
 const t = require('tcomb')
+const moment = require('moment')
 
 const JobsView = (props) => {
 	var { data, state, actions } = props
@@ -33,9 +34,12 @@ const JobsList = (props) => {
 
 
 const Job = ({ job }) => {
+	var jobDate = moment(job.date, moment.ISO_8601)
+
 	return h('li', [
 		h('div', {title: Object.keys(job)}, job.title),
-		h('div', job.date),
+		h('div', { title: jobDate.toLocaleString() },
+			'Posted ' + jobDate.fromNow()),
 		h('div', unsafeHtmlProp(job.desc)),
 	])
 }
