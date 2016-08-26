@@ -6,76 +6,34 @@ if (module.hot) {
 
 require('../util')
 
-const _ = require('lodash')
 const React = require('react')
 const ReactDOM = require('react-dom')
 const h = require('react-hyperscript')
-const t = require('tcomb')
-// const classnames = require('classnames')
 
-const APP = {
+const { JobsView } = require('./JobsView')()
+
+
+const data = {
 	// TODO: get from server
 	jobs: require('../data/jobs.db.json'),
 	// jobs: [],
 }
 
-const unsafeHtmlProp = (htmlStr) => {
-	return { dangerouslySetInnerHTML: {__html: htmlStr}}
+const state = {
+	searchTerm: ''
 }
 
-const SearchBar = ({ searchTerm, onFilterChange }) => {
-	t.String(searchTerm)
-
-	return h('input', {
-		type: 'text',
-		placeholder: 'Search jobs',
-		value: searchTerm ? searchTerm : '',
-		onChange: onFilterChange,
-	})
+const actions = {
+	jobs: {  // namespace
+		onFilterChange,
+	},
 }
 
-const JobsList = (props) => {
-	var jobs = props.jobs
+const APP = {
+	data,
+	state,
+	actions,
 
-	return h('ul', [
-		jobs.map((job, key) => h(Job, {job, key})),
-	])
-}
-
-const hasUppercase = (str) => {
-	return Array.from(str).reduce((_, c) => {
-		if (c.toUpperCase() === c)
-			return true
-	}, false)
-}
-
-// smartcase search
-const filterJob = (filter, job) => {
-	t.String(filter)
-
-	if (!filter)
-		return true
-
-	var { desc, title } = job
-
-	// case-insensitive search
-	if (!hasUppercase(filter)) {
-		desc = desc.toLowerCase()
-		title = title.toLowerCase()
-	}
-
-	if (typeof filter === 'string')
-		return desc.includes(filter) || title.includes(filter)
-
-	// TODO: add RegExp option for filter
-}
-
-const Job = ({ job }) => {
-	return h('li', [
-		h('div', {title: Object.keys(job)}, job.title),
-		h('div', job.date),
-		h('div', unsafeHtmlProp(job.desc)),
-	])
 }
 
 function onFilterChange(e) {
@@ -85,33 +43,44 @@ function onFilterChange(e) {
 	})
 }
 
-class JobsView extends React.Component {
+
+/**
+ * Recursively bind all the object's methods (at any depth)
+ * to the specified thisArg
+ */
+function bindAllTo(thisArg, obj) {
+	Object.keys(obj).map(key => {
+		var val = obj[key]
+		if (typeof val === 'function')
+			obj[key] = val.bind(thisArg)
+		else if (typeof val === 'object')  // go deeper
+			obj[key] = bindAllTo(thisArg, val)
+	})
+
+	return obj
+}
+
+class App extends React.Component {
 	constructor(props) {
 		super(props)
 
-		this.state = {
-			searchTerm: ''
-		}
+		this.state = APP.state
 
-		this.onFilterChange = onFilterChange.bind(this)
+		this.actions = bindAllTo(this, actions)
+		// this.onFilterChange = onFilterChange.bind(this)
 	}
 
 	render() {
-		var searchTerm = this.state.searchTerm
-
-		var jobs = APP.jobs.items
-		var filteredJobs = jobs
-			.filter(_.curry(filterJob)(searchTerm))
-
-		return h('div', [
-			h('h1', 'Jobs'),
-			h(SearchBar, {searchTerm, onFilterChange: this.onFilterChange}),
-			h('span', `Showing  ${filteredJobs.length} / ${jobs.length} jobs`),
-			h(JobsList, { jobs: filteredJobs }),
-		])
+		return h(JobsView, {
+			data: APP.data,
+			state: this.state,
+			actions: this.actions,
+		})
 	}
 }
 
-ReactDOM.render(h(JobsView), document.getElementById('app'))
+
+
+ReactDOM.render(h(App), document.getElementById('app'))
 
 module.exports = JobsView
