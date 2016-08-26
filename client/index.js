@@ -4,7 +4,7 @@ if (module.hot) {
 	module.hot.accept()
 }
 
-require('./util')
+require('../util')
 
 const _ = require('lodash')
 const React = require('react')
