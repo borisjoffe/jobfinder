@@ -3,20 +3,18 @@
 
 const l = require('log4js').getLogger('jobf')
 const _ = require('lodash')
-const t = require('tcomb')
 // const co = require('co')
 
 require('util')
 
 
-t.NotEmpty = t.irreducible('NotEmpty', (x) => x.length > 0)
-
-t.VString = t.intersection([t.String, t.NotEmpty], 'Non-empty string')
-
 function init() {
 	const APP = {}
 	APP.cfg = require('./config')()
 	APP.data = {}
+
+	// modified node modules
+	APP.t = require('./types')()
 
 	// submodules
 	APP.fetch = require('./fetch')(APP)

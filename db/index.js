@@ -3,9 +3,8 @@
 const l = require('log4js').getLogger('db')
 const fs = require('fs')
 
-const t = require('tcomb')
-
 var APP, DB
+var t
 
 function write(data, tablename, opts) {
 	l.info('db: starting write')
@@ -31,6 +30,7 @@ function write(data, tablename, opts) {
 module.exports = (app) => {
 	APP = app
 	DB = APP.cfg.db
+	t = APP.t
 
 	return {
 		write,
