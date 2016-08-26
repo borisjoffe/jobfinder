@@ -100,13 +100,14 @@ class JobsView extends React.Component {
 		var searchTerm = this.state.searchTerm
 
 		var jobs = APP.jobs.items
+		var filteredJobs = jobs
 			.filter(_.curry(filterJob)(searchTerm))
 
 		return h('div', [
 			h('h1', 'Jobs'),
 			h(SearchBar, {searchTerm, onFilterChange: this.onFilterChange}),
-			h('span', 'Showing ' + jobs.length + ' jobs'),
-			h(JobsList, { jobs }),
+			h('span', `Showing  ${filteredJobs.length} / ${jobs.length} jobs`),
+			h(JobsList, { jobs: filteredJobs }),
 		])
 	}
 }
