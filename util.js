@@ -40,6 +40,18 @@ exports.stripEnd = function (str, end) {
 	return stripped
 }
 
+
+/* ===============================
+ *          Client side
+ * =============================== */
+
+if (typeof window !== 'undefined') {
+	const classnames = require('classnames')
+
+	exports.classnames = (...args) => ({ className: classnames(...args) })
+}
+
+
 module.exports = function () {
 	return exports
 }

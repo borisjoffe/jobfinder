@@ -41,6 +41,9 @@ html {
 	border: 1px solid gray;
 }
 
+.job-selected {
+	border: 1px solid green;
+}
 
 .job-title {
 	font-weight: bold;

@@ -22,7 +22,8 @@ const data = {
 }
 
 const state = {
-	searchTerm: ''
+	searchTerm: '',
+	selectedJobIdx: 0,
 }
 
 const actions = {
