@@ -3,6 +3,8 @@
 // Plop: https://github.com/amwmedia/plop
 // inquirer prompts: https://github.com/SBoudrias/Inquirer.js/#objects
 
+const { stripEnd } = require('./util')()
+
 module.exports = function (plop) {
 	plop.setGenerator('js', {
 		prompts: [{
@@ -17,16 +19,16 @@ module.exports = function (plop) {
 				if (filename.endsWith('/'))
 					filename = filename + '/index'
 
-				if (!filename.endsWith('.js'))
-					filename += '.js'
+				if (filename.endsWith('.js'))
+					filename = stripEnd(filename, '.js')
 
 				return filename
 			},
 		}],
 		actions: [{
 			type: 'add',
-			path: '{{filename}}',
-			templateFile: 'plop/js.templ',
+			path: '{{filename}}.js',
+			templateFile: 'plop/templ.js',
 		}],
 	})
 }
