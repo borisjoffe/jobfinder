@@ -15,7 +15,7 @@ module.exports = function (plop) {
 				// create folder with index.js
 				// e.g. 'server/' -> 'server/index.js'
 				if (filename.endsWith('/'))
-					return filename + '/index'
+					filename = filename + '/index'
 
 				if (!filename.endsWith('.js'))
 					filename += '.js'
