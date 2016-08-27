@@ -3,6 +3,7 @@
 // const co = require('co')
 const l = require('log4js').getLogger('fetch')
 const request = require('request')
+const _ = require('lodash')
 const FeedParser = require('feedparser')
 
 const jobs = {
@@ -52,6 +53,9 @@ var read = function (feedUrl, sourceName) {
 					l.warn('guid: ' + item.guid + 'already exists')
 					// l.info('existing object: ' + u.pretty(jobs.items))
 					// l.info('new object: ' + u.pretty(jobs.items))
+
+					// remove original item from _order array
+					jobs._order = _.without(jobs._order, item.guid)
 				}
 
 				jobs.items[item.guid] = item
@@ -59,7 +63,7 @@ var read = function (feedUrl, sourceName) {
 				// save order
 				jobs._order.push(item.guid)
 
-				l.info('added item:', item.title)
+				// l.info('added item:', item.title)
 			}
 
 		})
