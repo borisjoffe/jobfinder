@@ -3,7 +3,7 @@
 const _ = require('lodash')
 const l = require('log4js').getLogger('transform')
 
-var APP
+var APP, u
 
 function logIfDiff(obj, k1, k2) {
 	if (obj[k1] !== obj[k2]) {
@@ -25,23 +25,15 @@ function clean(job) {
 function cleanAll(jobs) {
 	l.info('transform: starting clean')
 
-	l.info('there are', jobs.items.length, 'items')
+	l.info('there are', jobs._order.length, 'items')
 
-	jobs.items = jobs.items.map(clean)
+	jobs.items = _.mapValues(jobs.items, clean)
+
 	return jobs
 }
 
-function stripEnd(str, end) {
-	var stripped = str
-	if (str.endsWith(end))
-		stripped = str.replace(new RegExp(end + '$'), '')
-	return stripped
-}
-
-function transform(origJob) {
-	const job = _.cloneDeep(origJob)
-
-	job.title = stripEnd(origJob.title, ' - Upwork')
+function transform(job) {
+	job.title = u.stripEnd(job.title, ' - Upwork')
 
 	return job
 }
@@ -49,13 +41,14 @@ function transform(origJob) {
 function transformAll(jobs) {
 	l.info('transform: starting transform')
 
-	jobs.items = jobs.items.map(transform)
+	jobs.items = _.mapValues(jobs.items, transform)
 	return jobs
 }
 
 
 module.exports = function (app) {
 	APP = app
+	u = APP.util
 
 	return {
 		clean,

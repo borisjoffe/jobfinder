@@ -7,12 +7,13 @@ const FeedParser = require('feedparser')
 
 const jobs = {
 	meta: {},
-	items: []
+	items: Object.create(null),
+	_order: [],
 }
 
-var APP
+var APP, u
 
-var read = function (feedUrl) {
+var read = function (feedUrl, sourceName) {
 
 	const req = request(feedUrl)
 
@@ -36,7 +37,7 @@ var read = function (feedUrl) {
 
 	return new Promise((resolve, reject) => {
 		feedparser.on('meta', function (meta) {
-			jobs.meta = meta
+			jobs.meta[sourceName] = meta
 		})
 
 		feedparser.on('readable', function () {
@@ -47,7 +48,17 @@ var read = function (feedUrl) {
 				, item
 
 			while (item = stream.read()) {
-				jobs.items.push(item)
+				if (item.guid in jobs.items) {
+					l.warn('guid: ' + item.guid + 'already exists')
+					// l.info('existing object: ' + u.pretty(jobs.items))
+					// l.info('new object: ' + u.pretty(jobs.items))
+				}
+
+				jobs.items[item.guid] = item
+
+				// save order
+				jobs._order.push(item.guid)
+
 				l.info('added item:', item.title)
 			}
 
@@ -66,6 +77,7 @@ var read = function (feedUrl) {
 
 module.exports = function (_app) {
 	APP = _app
+	u = APP.util
 
 	return {
 		read

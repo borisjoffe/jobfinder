@@ -5,11 +5,27 @@ const l = require('log4js').getLogger('jobf')
 const _ = require('lodash')
 // const co = require('co')
 
-require('util')
+// const u = require('./util')
 
+var APP, transform, persistAsync
+
+const sources = ['upwork']  // TODO: extract from config
+
+function processStream(sourceName) {
+
+	const feed = APP.cfg[sourceName].feed.main
+
+	APP.fetch
+		.read(feed, sourceName)
+		.then(transform)
+		.then(persistAsync)
+		.then(() => l.info('done'))
+		.catch(l.error)
+
+}
 
 function init() {
-	const APP = {}
+	APP = {}
 	APP.cfg = require('./config')()
 	APP.data = {}
 
@@ -17,25 +33,19 @@ function init() {
 	APP.t = require('./types')()
 
 	// submodules
+	APP.util = require('./util')()
 	APP.fetch = require('./fetch')(APP)
 	APP.db = require('./db')(APP)
 	APP.transform = require('./transform')(APP)
 
-	const upworkFeed = APP.cfg.upwork.feed.main
-
-	var transform = _.flow(
+	transform = _.flow(
 		APP.transform.cleanAll,
 		APP.transform.transformAll
 	)
 
-	var persistAsync = (jobs) => APP.db.write(jobs, 'jobs')
+	persistAsync = (jobs) => APP.db.write(jobs, 'jobs')
 
-	APP.fetch
-		.read(upworkFeed)
-		.then(transform)
-		.then(persistAsync)
-		.then(() => l.info('done'))
-		.catch(l.error)
+	sources.map(processStream)
 
 	return APP
 }

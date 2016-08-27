@@ -11,13 +11,15 @@ const JobsView = (props) => {
 	var searchTerm = state.searchTerm
 
 	var jobs = data.jobs.items
-	var filteredJobs = jobs
-		.filter(_.curry(filterJob)(searchTerm))
+	var _order = data.jobs._order
+
+	// creates array from jobs object
+	var filteredJobs = _.filter(jobs, _.curry(filterJob)(searchTerm))
 
 	return h('div', [
 		h('h1', 'Jobs'),
 		h(SearchBar, {searchTerm, onFilterChange: actions.jobs.onFilterChange}),
-		h('span', `Showing  ${filteredJobs.length} / ${jobs.length} jobs`),
+		h('span', `Showing  ${filteredJobs.length} / ${_order.length} jobs`),
 		h(JobsList, { jobs: filteredJobs }),
 	])
 

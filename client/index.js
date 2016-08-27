@@ -4,6 +4,8 @@ if (module.hot) {
 	module.hot.accept()
 }
 
+const _ = require('lodash')
+
 require('../util')
 
 const React = require('react')
@@ -72,7 +74,7 @@ class App extends React.Component {
 
 	render() {
 		return h(JobsView, {
-			data: APP.data,
+			data: _.cloneDeep(APP.data),  // TODO: use immutable data structure
 			state: this.state,
 			actions: this.actions,
 		})
