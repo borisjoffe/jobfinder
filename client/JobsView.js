@@ -17,9 +17,11 @@ const JobsView = (props) => {
 	var filteredJobs = _.filter(jobs, _.curry(filterJob)(searchTerm))
 
 	return h('div', [
-		h('h1', 'Jobs'),
-		h(SearchBar, {searchTerm, onFilterChange: actions.jobs.onFilterChange}),
-		h('span', `Showing  ${filteredJobs.length} / ${_order.length} jobs`),
+		h('h1.jobs-title', 'Jobs'),
+		h('.jobs-search-component', [
+			h(SearchBar, {searchTerm, onFilterChange: actions.jobs.onFilterChange}),
+			h('span.jobs-shown', `Showing ${filteredJobs.length} / ${_order.length} jobs`),
+		]),
 		h(JobsList, { jobs: filteredJobs }),
 	])
 
@@ -29,7 +31,7 @@ const JobsView = (props) => {
 const JobsList = (props) => {
 	var jobs = props.jobs
 
-	return h('ul', [
+	return h('.jobs-list', [
 		jobs.map((job, key) => h(Job, {job, key})),
 	])
 }
@@ -38,11 +40,11 @@ const JobsList = (props) => {
 const Job = ({ job }) => {
 	var jobDate = moment(job.date, moment.ISO_8601)
 
-	return h('li', [
-		h('div', {title: Object.keys(job)}, job.title),
-		h('div', { title: jobDate.toLocaleString() },
+	return h('.job-item', [
+		h('.job-title', {title: Object.keys(job)}, job.title),
+		h('.job-date', { title: jobDate.toLocaleString() },
 			'Posted ' + jobDate.fromNow()),
-		h('div', unsafeHtmlProp(job.desc)),
+		h('.description', unsafeHtmlProp(job.desc)),
 	])
 }
 

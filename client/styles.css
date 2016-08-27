@@ -1,3 +1,55 @@
+/* ==============================
+ *         Base HTML
+ * ==============================*/
+html {
+	font: 'Arial';
+}
+
+
+/* ==============================
+ *         Utility
+ * ==============================*/
+
 .hidden {
 	display: none
 }
+
+
+/* ==============================
+ *       Job Components
+ * ==============================*/
+
+.jobs-title {
+	text-align: center;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.jobs-search-component {
+	text-align: center;
+}
+
+.jobs-shown {
+	margin-left: 10px;
+}
+
+
+.job-item {
+	padding: 10px;
+	margin-top: 15px;
+	margin-bottom: 15px;
+	border: 1px solid gray;
+}
+
+
+.job-title {
+	font-weight: bold;
+}
+
+.job-date {
+	font-style: italic;
+}
+
+.job-desc {
+}
+
