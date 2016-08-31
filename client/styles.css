@@ -2,6 +2,7 @@
  *         Base HTML
  * ==============================*/
 html {
+	box-sizing: border-box;
 	font: 'Arial';
 }
 
@@ -12,6 +13,34 @@ html {
 
 .hidden {
 	display: none
+}
+
+.left {
+	float: left;
+}
+
+.right {
+	float: right;
+}
+
+.priority-high {
+	color: red;
+}
+
+.priority-med {
+	color: orange;
+}
+
+.priority-low {
+	color: blue;
+}
+
+.priority-none {
+	color: gray;
+}
+
+.priority-selected {
+	border: 2px solid black;
 }
 
 

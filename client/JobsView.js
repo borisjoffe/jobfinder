@@ -52,14 +52,39 @@ const Job = ({ job, selected }) => {
 	if (selected)
 		u.log('selected')
 
-	return h('.job-item', cn({'job-selected': selected}), [
-		h('.job-title', {title: Object.keys(job)}, job.title),
-		h('.job-date', { title: jobDate.toLocaleString() },
-			'Posted ' + jobDate.fromNow()),
-		h('.description', unsafeHtmlProp(job.desc)),
+	return h('.job-item', cn({'job-selected': selected}),
+		[ h('.left.job-title', {title: Object.keys(job)}, job.title)
+		, h(Priority, { priority: job._priority })
+		, h('.job-date', { title: jobDate.toLocaleString() }
+			, 'Posted ' + jobDate.fromNow())
+		, h('.description', unsafeHtmlProp(job.desc))
 	])
 }
 
+// function setPriority(priority) {
+// 	this.setState({_priority: priority})
+// }
+
+/**
+ * Priority must be 1 (low), 2 (med), 3 (high), or falsy
+ */
+const Priority = ({ priority }) => {
+	const priorityArr = ['low', 'med', 'high']
+	const priorityCssSuffix = priorityArr[priority] || 'none'
+
+	return h('.right' + '.priority-' + priorityCssSuffix, [
+		h('span',
+			{ title: 'Priority: ' + priority
+			, name: 'priority'
+		},
+		[ h('button.priority-none', cn({'priority-selected': priorityCssSuffix === 'none'}),  'none')
+		, h('button.priority-low', cn({'priority-selected': priorityCssSuffix === 'low'}), 'low')
+		, h('button.priority-med', cn({'priority-selected': priorityCssSuffix === 'med'}), 'med')
+		, h('button.priority-high', cn({'priority-selected': priorityCssSuffix === 'high'}), 'high')
+		]
+		)
+	])
+}
 
 const SearchBar = ({ searchTerm, onFilterChange }) => {
 	t.String(searchTerm)
