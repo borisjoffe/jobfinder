@@ -8,6 +8,7 @@ const moment = require('moment')
 const u = require('../util')()
 const cn = u.classnames
 
+const MAX_DISPLAYED_JOBS = 10
 
 const JobsView = (props) => {
 	var { data, state, actions } = props
@@ -19,14 +20,17 @@ const JobsView = (props) => {
 
 	// creates array from jobs object
 	var filteredJobs = _.filter(jobs, _.curry(filterJob)(searchTerm))
+	var numFilteredJobs = filteredJobs.length
+	var displayedJobs = filteredJobs
+		.slice(0, MAX_DISPLAYED_JOBS)
 
 	return h('div', [
 		h('h1.jobs-title', 'Jobs'),
 		h('.jobs-search-component', [
 			h(SearchBar, {searchTerm, onFilterChange: actions.jobs.onFilterChange}),
-			h('span.jobs-shown', `Showing ${filteredJobs.length} / ${_order.length} jobs`),
+			h('span.jobs-filtered', `${numFilteredJobs} / ${_order.length} jobs`),
 		]),
-		h(JobsList, { jobs: filteredJobs, selectedJobIdx: state.selectedJobIdx }),
+		h(JobsList, { jobs: displayedJobs, selectedJobIdx: state.selectedJobIdx }),
 	])
 
 }
