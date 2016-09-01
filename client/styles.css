@@ -15,6 +15,10 @@ html {
 	display: none
 }
 
+.clearfix {
+	clear: both;
+}
+
 .left {
 	float: left;
 }

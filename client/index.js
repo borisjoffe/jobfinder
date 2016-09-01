@@ -27,9 +27,8 @@ const state = {
 }
 
 const actions = {
-	jobs: {  // namespace
-		onFilterChange,
-	},
+	// jobs namespace
+	jobs: require('./actions'),
 }
 
 const APP = {
@@ -37,13 +36,6 @@ const APP = {
 	state,
 	actions,
 
-}
-
-function onFilterChange(e) {
-	//jshint validthis:true
-	this.setState({
-		searchTerm: e.target.value
-	})
 }
 
 
