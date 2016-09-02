@@ -5,9 +5,8 @@
   "main": "index.js",
   "scripts": {
     "web": "npm run serve",
-    "dev": "npm run preserve && webpack-dev-server",
+    "dev": "webpack-dev-server",
     "build": "webpack",
-    "preserve": "cp -u util.js client/",
     "serve": "nodemon --watch server --watch webpack.config.js --watch package.json server/index.js",
     "start": "node index.js",
     "extract": "node index.js",
